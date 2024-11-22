@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Maternal Health Risk Prediction</title>
+		<link
+			rel="stylesheet"
+			href="{{ url_for('static', filename='style.css') }}" />
+		<link
+			href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+			rel="stylesheet" />
+	</head>
+	<body>
+		<header>
+			<div class="header">
+				<img
+					src="{{ url_for('static', filename='images/logo.png') }}"
+					class="logo"
+					alt="Logo" />
+				<div class="header-right">
+					<a id="home" class="active" href="#home">Home</a>
+					<a href="{{ url_for('preprocess') }}">Pre-Process</a>
+					<a href="{{ url_for('visualizations') }}">Visualizations</a>
+					<a href="{{ url_for('retrain') }}">Re-Train</a>
+					<a href="{{ url_for('predict') }}">Predict</a>
+				</div>
+			</div>
+		</header>
+
+		<div class="container1">
+			<img
+				src="{{ url_for('static', filename='images/mother1.png') }}"
+				class="landing"
+				alt="landingimg" />
+		</div>
+
+		<div class="containercontent">
+			<h2 class="headingtitle">
+				Join us to have a safe journey to motherhood!
+			</h2>
+			<h2 class="welcometitle">Welcome to NURTURE</h2>
+			<p class="content">
+				Nurture is committed to empowering mothers-to-be with knowledge and
+				peace of mind. By providing accurate risk assessments based on vital
+				health data, Nurture aims to identify potential complications early on.
+			</p>
+			<p class="content">
+				<br />
+				Our goal is to enable mothers to take proactive steps towards a healthy
+				and safe pregnancy.
+			</p>
+		</div>
+
+		<div class="contenthow">
+			<h2 class="headingtitle">
+				Take control of your health and your child's too
+			</h2>
+			<p class="paragraph">
+				All you need is to check your vital information like blood pressure,<br />
+				body temperature, pulse (heart rate), glucose (sugar levels), and enter
+				these values<br />
+				on the predict section.
+			</p>
+			<p class="paragraph">
+				Our free NURTURE website will make predictions and alert you on your
+				risk level.<br />
+				For high risk, you will need to see a doctor, mid-risk you are safer but
+				need constant monitoring<br />
+				and low risk you are safe. KEEP checking your vitals weekly to stay on
+				track.
+			</p>
+		</div>
+
+		<h1 class="access-h1">WHY US?</h1>
+		<div id="services" class="container-fluid">
+			<div class="row">
+				<div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="0.1s">
+					<img
+						class="img-fluid img-log"
+						src="{{ url_for('static', filename='images/icon1.svg') }}"
+						alt="login-vector" />
+					<div class="content-access">
+						<h3>ACCURATE PREDICTIONS</h3>
+						<p>
+							Nurture leverages machine learning algorithms that have been
+							trained on extensive datasets. Through rigorous data
+							preprocessing, cleaning, feature engineering, and evaluation, our
+							models are optimized to provide accurate and timely risk
+							assessments.
+						</p>
+					</div>
+				</div>
+				<div
+					class="col-md-6 col-lg-4 img-acess wow fadeInUp"
+					data-wow-delay="0.1s">
+					<img
+						class="img-fluid"
+						src="{{ url_for('static', filename='images/icon2.svg') }}"
+						alt="login-vector" />
+					<div class="content-access">
+						<h3>USER-FRIENDLY INTERFACE</h3>
+						<p>
+							Our intuitive platform is designed to be easy to use. With a few
+							simple steps, you can input your data and receive immediate
+							results.
+						</p>
+					</div>
+				</div>
+				<div
+					class="col-md-6 col-lg-4 img-acess wow fadeInUp"
+					data-wow-delay="0.1s">
+					<img
+						class="img-fluid"
+						src="{{ url_for('static', filename='images/icon3.svg') }}"
+						alt="login-vector" />
+					<div class="content-access">
+						<h3>PROACTIVE MATERNAL CARE</h3>
+						<p>
+							Take control of your pregnancy journey with Nurture. We provide
+							personalized insights and early risk detection, empowering you to
+							make informed decisions and ensure a healthy pregnancy.
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<footer class="footer">
+			<div class="copyright">
+				<img src="{{ url_for('static', filename='images/logo.png') }}" alt="" />
+				<h2>&copy; 2024 | NURTURE: Your Partner in Maternal Health</h2>
+			</div>
+			<div class="else">
+				<ul>
+					<li><a class="active" href="#home">Home</a></li>
+					<li><a href="{{ url_for('preprocess') }}">Pre-process</a></li>
+					<li><a href="{{ url_for('visualizations') }}">Visualizations</a></li>
+					<li><a href="{{ url_for('retrain') }}">Re-train</a></li>
+					<li><a href="{{ url_for('predict') }}">Predict</a></li>
+				</ul>
+			</div>
+		</footer>
+	</body>
+</html>
