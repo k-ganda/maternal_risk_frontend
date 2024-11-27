@@ -66,9 +66,9 @@
 				<div class="circle">
 					<h3>How?</h3>
 					<p>
-						You will upload your dataset, that has been scaled and click on the
-						button retrain model for it to retrain. Wait for a confirmation on
-						the success of the process.
+						You will upload your dataset,and click on the button retrain model
+						for it to retrain. Wait for a confirmation on the success of the
+						process.
 					</p>
 				</div>
 			</div>
@@ -94,8 +94,9 @@
 			<div class="arrow"><i class="fas fa-arrow-down"></i></div>
 			<h3>Get Started Now</h3>
 			<p>
-				Begin by uploading a new dataset to retrain your model and enhance its
-				performance.
+				Begin by uploading a new dataset(CSV ONLY with 7 columns) then click on
+				the upload file button to upload the file. Finally click on the retrain
+				model button for retraining.
 			</p>
 		</div>
 
@@ -103,11 +104,22 @@
 		<div class="upload-section">
 			<label class="upload-label" for="file-upload">Upload your dataset:</label>
 			<div class="file-input-container">
-				<input type="file" id="file-upload" class="file-input" />
-				<button type="button" id="clear-file" class="clear-button">
+				<input type="file" id="file-upload" class="file-input" required />
+				<button
+					type="button"
+					id="clear-file"
+					class="clear-button"
+					onclick="clearFileInput()">
 					Clear
 				</button>
 			</div>
+			<button
+				type="button"
+				id="uploadButton"
+				class="upload-button"
+				onclick="uploadFile()">
+				Upload File
+			</button>
 		</div>
 
 		<!-- Retrain Button Section -->

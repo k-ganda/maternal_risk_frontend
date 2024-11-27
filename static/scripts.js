@@ -1,54 +1,94 @@
-document.getElementById('clear-file').addEventListener('click', function () {
-	document.getElementById('file-upload').value = ''; // Clear the file input
-});
+let uploadedFilePath = ''; // To store the file path after upload
 
-// Function to enable the retrain button once a file is uploaded
-function enableRetrainButton() {
-	const fileInput = document.querySelector('#file-upload');
-	const retrainButton = document.querySelector('#retrainButton');
+// Handle file upload
+async function uploadFile() {
+	const fileInput = document.getElementById('file-upload');
+	const file = fileInput.files[0]; // Get the first file
 
-	// Check if a file is selected
-	if (fileInput.files.length > 0) {
-		retrainButton.disabled = false; // Enable retrain button
-	} else {
-		retrainButton.disabled = true; // Keep it disabled if no file selected
+	if (!file) {
+		alert('Please select a file first.');
+		return;
+	}
+
+	const formData = new FormData();
+	formData.append('file', file);
+
+	try {
+		// Send the file to the backend
+		const response = await fetch('/upload-data', {
+			method: 'POST',
+			body: formData,
+		});
+
+		const result = await response.json();
+
+		if (response.ok) {
+			alert(result.message); // Show success message
+
+			uploadedFilePath = result.file_path.replace(/\\/g, '/'); // Store the file path for retraining
+			console.log('File path after upload:', uploadedFilePath);
+			document.getElementById('retrainButton').disabled = false; // Enable retrain button
+		} else {
+			alert('Error uploading data: ' + result.detail);
+		}
+	} catch (error) {
+		console.error('Error during file upload:', error);
+		alert('An error occurred while uploading the file.');
 	}
 }
 
-// Function to handle the retraining process once the button is clicked
-function retrainModel() {
-	const retrainButton = document.querySelector('#retrainButton');
-	const progressBar = document.querySelector('.progress-bar');
-	const resultMessage = document.querySelector('.result-message');
-	const progressContainer = document.querySelector('.progress-container');
-	const fileInput = document.querySelector('#file-upload');
-
-	// Ensure a file is uploaded before retraining
-	if (fileInput.files.length === 0) {
-		alert('Please upload a dataset first.');
-		return; // Exit the retraining process if no file is selected
+// Handle the retrain process
+async function retrainModel() {
+	if (!uploadedFilePath) {
+		alert('No file uploaded. Please upload a file first.');
+		return;
 	}
 
-	// Disable the retrain button during retraining
-	retrainButton.disabled = true;
+	console.log('Sending file path to retrain:', uploadedFilePath);
 
-	// Show progress bar and start retraining
-	progressContainer.style.display = 'block';
-	progressBar.style.width = '0%';
-	progressBar.style.transition = 'none'; // Remove transition during update
+	// Disable the retrain button to prevent multiple clicks
+	document.getElementById('retrainButton').disabled = true;
+	document.getElementById('retrainButton').innerText = 'Retraining...'; // Change button text
 
-	// Simulate retraining process
-	setTimeout(function () {
-		progressBar.style.transition = 'width 2s ease-in-out'; // Re-enable smooth transition
-		progressBar.style.width = '100%'; // Fill progress bar
+	try {
+		// Send the file path to retrain the model
+		const response = await fetch('/retrain', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({ file_path: uploadedFilePath }), // send file_path in JSON body
+		});
 
-		// After retraining is complete, show the result message
-		setTimeout(function () {
-			resultMessage.style.opacity = 1;
-			resultMessage.textContent = 'Retraining complete!';
+		const result = await response.json();
 
-			// Re-enable retrain button after a short delay
-			retrainButton.disabled = false;
-		}, 2000); // Delay for progress bar to fill
-	}, 3000); // Simulate retraining time (replace with actual logic)
+		if (response.ok) {
+			alert(
+				`Model retrained successfully! Model version: ${result.model_version}`
+			);
+			document.getElementById('retrainButton').innerText = 'Retrain Model'; // Reset button text
+			document.getElementById('retrainButton').disabled = false; // Re-enable button for further retraining
+		} else {
+			let errorMessage = result.detail || 'An unknown error occurred.';
+			if (result.error) {
+				errorMessage += ` Error: ${JSON.stringify(result.error)}`;
+			}
+			alert('Error retraining model: ' + result.detail);
+			document.getElementById('retrainButton').innerText = 'Retrain Model'; // Reset button text
+			document.getElementById('retrainButton').disabled = false; // Re-enable button
+		}
+	} catch (error) {
+		console.error('Error during model retraining:', error);
+		alert('An error occurred while retraining the model.');
+		document.getElementById('retrainButton').innerText = 'Retrain Model'; // Reset button text
+		document.getElementById('retrainButton').disabled = false; // Re-enable button
+	}
+}
+
+// Handle file input clearing
+function clearFileInput() {
+	document.getElementById('file-upload').value = '';
+	uploadedFilePath = ''; // Reset the uploaded file path
+	document.getElementById('retrainButton').disabled = true; // Disable retrain button
+	document.getElementById('retrainButton').innerText = 'Retrain Model'; // Reset button text
 }
